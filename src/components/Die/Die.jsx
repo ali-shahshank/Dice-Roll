@@ -1,41 +1,15 @@
-import React, { Component } from "react";
+import React from "react";
 import "./Die.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faDiceOne,
-  faDiceTwo,
-  faDiceThree,
-  faDiceFour,
-  faDiceFive,
-  faDiceSix,
-} from "@fortawesome/free-solid-svg-icons";
+import "bootstrap-icons/font/bootstrap-icons.css"; // Import Bootstrap Icons
 
-// Mapping dice face names to their corresponding icons
-const diceIcons = {
-  one: faDiceOne,
-  two: faDiceTwo,
-  three: faDiceThree,
-  four: faDiceFour,
-  five: faDiceFive,
-  six: faDiceSix,
+const Die = ({ face, rolling }) => {
+  return (
+    <i
+      className={`bi bi-dice-${face}-fill display-1 mx-2 Die ${
+        rolling ? "Die-shaking" : ""
+      }`}
+    ></i>
+  );
 };
-
-class Die extends Component {
-  render() {
-    const { face, rolling } = this.props;
-
-    return (
-      <>
-        <div className="p-4">
-          <FontAwesomeIcon
-            style={{ height: "56px" }}
-            icon={diceIcons[face]}
-            className={`Die ${rolling ? "Die-shaking" : ""}`}
-          />
-        </div>
-      </>
-    );
-  }
-}
 
 export default Die;

@@ -1,69 +1,45 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import "./RollDice.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import Die from "../Die/Die";
 
-class RollDice extends Component {
-  // Face numbers passed as default props
-  static defaultProps = {
-    sides: ["one", "two", "three", "four", "five", "six"],
+const RollDice = () => {
+  const sides = ["1", "2", "3", "4", "5", "6"]; // Bootstrap uses numbers
+
+  const [die1, setDie1] = useState("1");
+  const [die2, setDie2] = useState("1");
+  const [rolling, setRolling] = useState(false);
+
+  const roll = () => {
+    setRolling(true);
+    setTimeout(() => {
+      setDie1(sides[Math.floor(Math.random() * sides.length)]);
+      setDie2(sides[Math.floor(Math.random() * sides.length)]);
+      setRolling(false);
+    }, 1000);
   };
 
-  constructor(props) {
-    super(props);
-
-    // States
-    this.state = {
-      die1: "one",
-      die2: "one",
-      rolling: false,
-    };
-    this.roll = this.roll.bind(this);
-  }
-
-  roll() {
-    const { sides } = this.props;
-
-    // Set rolling to true immediately
-    this.setState({ rolling: true });
-
-    setTimeout(() => {
-      this.setState({
-        die1: sides[Math.floor(Math.random() * sides.length)],
-        die2: sides[Math.floor(Math.random() * sides.length)],
-      });
-
-      // Set rolling to false after dice update
-      setTimeout(() => {
-        this.setState({ rolling: false });
-      }, 1000);
-    }, 100);
-  }
-
-  render() {
-    const { die1, die2, rolling } = this.state;
-    const handleBtn = rolling ? "RollDice-rolling" : "";
-
-    return (
-      <>
-        <div className="cols-sm-12 col-md-12 p-4 ">
-          <h2>Dice Rolling</h2>
-          <div className="container p-4 ">
-            <div className="RollDice-container d-flex">
-              <Die face={die1} rolling={rolling} />
-              <Die face={die2} rolling={rolling} />
-            </div>
-            <button
-              className={handleBtn}
-              disabled={rolling}
-              onClick={this.roll}
-            >
-              {rolling ? "Rolling..." : "Roll"}
-            </button>
-          </div>
-        </div>
-      </>
-    );
-  }
-}
+  return (
+    <div className="col-sm-12 col-md-12 p-4 d-flex flex-column justify-content-center align-items-center">
+      <div className="container p-4">
+        <h2 className="fs-1 ">Roll The Dice</h2>
+      </div>
+      <div className="container p-4 ">
+        <Die face={die1} rolling={rolling} />
+        <Die face={die2} rolling={rolling} />
+      </div>
+      <div className="container p-4 ">
+        <button
+          className={rolling ? "RollDice-rolling" : ""}
+          disabled={rolling}
+          onClick={roll}
+        >
+          {rolling ? "Rolling..." : "Roll Dice!"}
+        </button>
+      </div>
+    </div>
+  );
+};
 
 export default RollDice;
